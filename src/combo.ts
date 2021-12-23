@@ -1,4 +1,12 @@
-import { abort, cliExecute, fileToBuffer, gamedayToInt, myId } from "kolmafia";
+import {
+  abort,
+  cliExecute,
+  fileToBuffer,
+  gamedayToInt,
+  handlingChoice,
+  myId,
+  runChoice,
+} from "kolmafia";
 import { get, set } from "libram";
 
 type BeachTile = { minute: number; row: number; column: number };
@@ -54,4 +62,5 @@ export function main(args: string | number): void {
   while (n <= combs) {
     if (comb()) n++;
   }
+  if (handlingChoice()) runChoice(5);
 }
