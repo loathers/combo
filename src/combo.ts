@@ -1,4 +1,4 @@
-import { cliExecute, fileToBuffer, gamedayToInt, myId } from "kolmafia";
+import { abort, cliExecute, fileToBuffer, gamedayToInt, myId } from "kolmafia";
 import { get, set } from "libram";
 
 type BeachTile = { minute: number; row: number; column: number };
@@ -34,7 +34,7 @@ function getShuffledArray(): BeachTile[] {
   return shuffledArray;
 }
 
-function comb(): void {
+function comb(): boolean {
   const tileList = getShuffledArray();
   const index = (get("combo_lastTileCombed", 0) + 1) % tileList.length;
   const tile = tileList[index];
@@ -43,5 +43,15 @@ function comb(): void {
   const shouldComb = tile.row > rowsHidden;
   if (shouldComb) _comb(tile);
   set("combo_lastTileCombed", index);
-  return;
+  return shouldComb;
+}
+
+export function main(args: string | number): void {
+  const combs = typeof args === "string" ? parseInt(args) : args;
+  if (combs < 0 || Math.floor(combs) !== combs) abort("Invalid argument!");
+
+  let n = 1;
+  while (n <= combs) {
+    if (comb()) n++;
+  }
 }
