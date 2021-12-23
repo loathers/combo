@@ -1846,6 +1846,8 @@ function main(args) {
   while (n <= combs) {
     if (comb()) n++;
   }
+
+  if ((0,external_kolmafia_namespaceObject.handlingChoice)()) (0,external_kolmafia_namespaceObject.runChoice)(5);
 }
 })();
 
