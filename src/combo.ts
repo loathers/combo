@@ -33,7 +33,7 @@ function _comb(tile: BeachTile): void {
 
   const rareRow = layout.get(row);
   if (rareRow) {
-    if (rareRow[column] === "t") cliExecute(`beach comb ${row} ${column}`);
+    if (rareRow[column] !== "c") cliExecute(`beach comb ${row} ${column}`);
   }
 
   const firstTwinkleRow = Array.from(layout.entries()).find((rowLayout) =>
