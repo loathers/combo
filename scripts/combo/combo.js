@@ -1795,7 +1795,34 @@ function _comb(tile) {
   var minute = tile.minute,
       row = tile.row,
       column = tile.column;
-  (0,external_kolmafia_namespaceObject.cliExecute)("beach wander ".concat(minute, "; beach comb ").concat(row, " ").concat(column));
+  (0,external_kolmafia_namespaceObject.cliExecute)("beach wander ".concat(minute, ";"));
+  var layout = new Map(getString("_beachLayout").split(",").map(element => element.split(":")).map(rowLayout => [parseInt(rowLayout[0]), rowLayout[1].split("")]));
+  var whaleRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("W"));
+
+  if (whaleRow) {
+    var _column = whaleRow[1].findIndex(x => x === "W");
+
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow, " ").concat(_column));
+    return;
+  }
+
+  var rareRow = layout.get(row);
+
+  if (rareRow) {
+    if (rareRow[column] !== "c") (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
+    return;
+  }
+
+  var firstTwinkleRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("t"));
+
+  if (firstTwinkleRow) {
+    var _column2 = firstTwinkleRow[1].findIndex(x => x === "t");
+
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(firstTwinkleRow, " ").concat(_column2));
+    return;
+  }
+
+  (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
 }
 
 var seed = parseInt((0,external_kolmafia_namespaceObject.myId)());
