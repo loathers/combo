@@ -1800,9 +1800,8 @@ function _comb(tile) {
   var whaleRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("W"));
 
   if (whaleRow) {
-    var _column = whaleRow[1].findIndex(x => x === "W");
-
-    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow, " ").concat(_column));
+    var whaleColumn = whaleRow[1].findIndex(x => x === "W");
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow, " ").concat(whaleColumn));
     return;
   }
 
@@ -1816,9 +1815,8 @@ function _comb(tile) {
   var firstTwinkleRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("t"));
 
   if (firstTwinkleRow) {
-    var _column2 = firstTwinkleRow[1].findIndex(x => x === "t");
-
-    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(firstTwinkleRow, " ").concat(_column2));
+    var twinkleColumn = firstTwinkleRow[1].findIndex(x => x === "t");
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(firstTwinkleRow, " ").concat(twinkleColumn));
     return;
   }
 
