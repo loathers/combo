@@ -26,8 +26,8 @@ function _comb(tile: BeachTile): void {
 
   const whaleRow = Array.from(layout.entries()).find((rowLayout) => rowLayout[1].includes("W"));
   if (whaleRow) {
-    const column = whaleRow[1].findIndex((x) => x === "W");
-    cliExecute(`beach comb ${whaleRow} ${column}`);
+    const whaleColumn = whaleRow[1].findIndex((x) => x === "W");
+    cliExecute(`beach comb ${whaleRow} ${whaleColumn}`);
     return;
   }
 
@@ -41,8 +41,8 @@ function _comb(tile: BeachTile): void {
     rowLayout[1].includes("t")
   );
   if (firstTwinkleRow) {
-    const column = firstTwinkleRow[1].findIndex((x) => x === "t");
-    cliExecute(`beach comb ${firstTwinkleRow} ${column}`);
+    const twinkleColumn = firstTwinkleRow[1].findIndex((x) => x === "t");
+    cliExecute(`beach comb ${firstTwinkleRow} ${twinkleColumn}`);
     return;
   }
 
