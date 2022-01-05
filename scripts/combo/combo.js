@@ -1808,8 +1808,10 @@ function _comb(tile) {
   var rareRow = layout.get(row);
 
   if (rareRow) {
-    if (rareRow[column] !== "c") (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
-    return;
+    if (rareRow[column] !== "c") {
+      (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
+      return;
+    }
   }
 
   var firstTwinkleRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("t"));
