@@ -1801,7 +1801,7 @@ function _comb(tile) {
 
   if (whaleRow) {
     var whaleColumn = whaleRow[1].findIndex(x => x === "W");
-    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow, " ").concat(whaleColumn));
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow[0], " ").concat(whaleColumn));
     return;
   }
 
@@ -1818,7 +1818,7 @@ function _comb(tile) {
 
   if (firstTwinkleRow) {
     var twinkleColumn = firstTwinkleRow[1].findIndex(x => x === "t");
-    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(firstTwinkleRow, " ").concat(twinkleColumn));
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(firstTwinkleRow[0], " ").concat(twinkleColumn));
     return;
   }
 
