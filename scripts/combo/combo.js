@@ -1789,25 +1789,52 @@ function combo_arrayLikeToArray(arr, len) { if (len == null || len > arr.length)
 
 
 
-var rareTiles = JSON.parse((0,external_kolmafia_namespaceObject.fileToBuffer)("raretiles.json"));
+// This is too big a data set to cram into a file
+// JSON or "JavaScript Object Notation" is a way of storing JS objects in strings
+// fileToBuffer is a mafia ASH function that reads .txt files into a "buffer"
+// JS doesn't have buffers, so this is coered into a string
+// We assert that rareTiles will be an array of BeachTiles, because this script doesn't otherwise know.
+// If we didn't make this assertion, a lot of things would explode.
+// Unfortunately, this can mean some bad things could happen were our data file to get messed up
+var rareTiles = JSON.parse((0,external_kolmafia_namespaceObject.fileToBuffer)("raretiles.json")); // We precede the function name with an underscore to show that it's not a front, user-facing function
+// In this script, really only main is, but we may port this code into libram at some point
+// We'd want to export the comb function, but not _comb
 
 function _comb(tile) {
+  // Here, we destructure the BeachTile object into three separate variables
+  // It's going to be really tedious to write tile.minute and tile.row all the time
+  // So this is nice looking
   var minute = tile.minute,
       row = tile.row,
       column = tile.column;
-  (0,external_kolmafia_namespaceObject.cliExecute)("beach wander ".concat(minute, ";"));
-  var layout = new Map(getString("_beachLayout").split(",").map(element => element.split(":")).map(rowLayout => [parseInt(rowLayout[0]), rowLayout[1].split("")]));
+  (0,external_kolmafia_namespaceObject.cliExecute)("beach wander ".concat(minute, ";")); // Mafia's _beachLayot property generates strings that look like
+  // 4:rrrrrrrrrr,5:rrrrrrrrrr,6:rrcrrrrrcr,7:crrrrrrrrr,8:rrrrrrrrrr,9:rrrrrrrrrr,10:rrrrrrcrrr
+  // We start by turning this into a multidimensional array, and then parse it as a map
+  // We use maps because we want to be able to "look up" a row using its index
+
+  var layout = new Map(getString("_beachLayout").split(",").map(element => element.split(":")) // While you and I both know, looking at the property, that every element at this point will look like [3, ["r","r","r","r","r","r","r","r","r","r"]]
+  // TypeScript doesn't know that! the "as" called a "Type Assertion", which is exactly what it sounds like
+  // This way, our compiler and our IDE don't start shouting at us for things that we, the reader, know are fine.
+  .map(rowLayout => [parseInt(rowLayout[0]), rowLayout[1].split("")])); // the Array.find() method returnns either an element of the array that fits, or undefined
+  // We convert our Map to an Array here to use the .find() method
+  // We check for a whale here just because wouldn't it be neat if we had a whale?
+
   var whaleRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("W"));
 
   if (whaleRow) {
+    // Mafia inexplicably indexes columns starting at 0, and rows starting at 1
+    // This is beneficial to us! Arrays are indexed starting at 1, so .findIndex() gets us just what we want
     var whaleColumn = whaleRow[1].findIndex(x => x === "W");
-    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow[0], " ").concat(whaleColumn));
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow[0], " ").concat(whaleColumn)); // By returning partway through, we avoid needing to use "else"
+    // With the exception of try...finally shenanigans, using the return keyword will just immediately terminate the function
+
     return;
   }
 
   var rareRow = layout.get(row);
 
   if (rareRow) {
+    // Here we make sure that the tile we were going to comb wasn't already combed
     if (rareRow[column] !== "c") {
       (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
       return;
@@ -1823,14 +1850,24 @@ function _comb(tile) {
   }
 
   (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
-}
+} // Alright now this is pretty cool
+// We need a way to shuffle the array deterministically--we want it to have the same order for every player every time
+// Obviously what that means is that we seed it by player id.
+// Have you ever shoved an integer into the sine function? It's nasty
+// This isn't super duper random. But it's random enough!
+
 
 var seed = parseInt((0,external_kolmafia_namespaceObject.myId)());
 
 function deterministicRandom() {
   seed++;
   return Math.sin(seed);
-}
+} // Here, we disassemble the old array while constructing a new one.
+// We pull a random card from the deck, put it on top of the new stack.
+// Repeat ad infinitum
+// If this was a more rigorous script, maybe we'd want to copy the input array so we don't destroy it
+// For this script, meh
+
 
 function deterministicShuffle(array) {
   var returnValue = [];
@@ -1851,28 +1888,45 @@ function getShuffledArray() {
   }
 
   return shuffledArray;
-}
+} // This comb function returns a boolean value based on whether we actually end up coming
+// We predict whether the tile in question will be hidden by the tides, and if it will, we just don't go!
+
 
 function comb() {
   var tileList = getShuffledArray();
   var index = (get("combo_lastTileCombed", 0) + 1) % tileList.length;
-  var tile = tileList[index];
+  var tile = tileList[index]; // This little bit of tech comes from SSBBHax
+  // The tides are on an 8-day cycle
+  // We have 8-day months on the in-game calendar
+  // Turns out to work out nicely!
+
   var dayOfMonth = 1 + (0,external_kolmafia_namespaceObject.gamedayToInt)() % 8;
   var rowsHidden = 4 - Math.abs(4 - dayOfMonth);
   var shouldComb = tile.row > rowsHidden;
-  if (shouldComb) _comb(tile);
+  if (shouldComb) _comb(tile); // We increment our lastTileCombed regardless of whether we actually comb it
+  // This isn't best beheavior, but it isn't worst!
+
   _set("combo_lastTileCombed", index);
   return shouldComb;
-}
+} // When called from the CLI, this will only ever have string inputs
+// We use string | number so that people can call this directly from other scripts, should they so desire
+// Realistically, everyone will do the CLI option. But it costs us nothing!
+
 
 function main(args) {
+  // Here we collapse our two possibilities into one
+  // If args is already a number, combs is a number
+  // If args is a string, we convert it to a number
   var combs = typeof args === "string" ? parseInt(args) : args;
   if (combs < 0 || Math.floor(combs) !== combs) (0,external_kolmafia_namespaceObject.abort)("Invalid argument!");
   var n = 1;
 
   while (n <= combs) {
+    // Comb returns a boolean based on whether we actually comb the tile
     if (comb()) n++;
-  }
+  } // We have to escape the beach combat choice at the end of the session
+  // So we do
+
 
   if ((0,external_kolmafia_namespaceObject.handlingChoice)()) (0,external_kolmafia_namespaceObject.runChoice)(5);
 }
