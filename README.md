@@ -29,6 +29,11 @@ In order to avoid having all users combing the same tiles in sequence, whenever 
 ### Credits
 
 Thank you so much to the following players who have provided data for this script:  
-- Tadpoleloop  
+- Tadpoleloop 
+- SSBBHax 
+- DanceCommander6
 - Disco Stew  
 - Grushvak  
+- Veracity
+- The Dictator
+- Playultm8
