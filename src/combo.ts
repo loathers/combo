@@ -7,7 +7,7 @@ import {
   myId,
   runChoice,
 } from "kolmafia";
-import { get, property, set } from "libram";
+import { get, property, set, sinceKolmafiaRevision } from "libram";
 
 type BeachTile = { minute: number; row: number; column: number };
 
@@ -141,6 +141,9 @@ function comb(): boolean {
 // We use string | number so that people can call this directly from other scripts, should they so desire
 // Realistically, everyone will do the CLI option. But it costs us nothing!
 export function main(args: string | number): void {
+  // Sometimes people try to run things with insanely old mafia versions and run into problems
+  // Think of this as babyproofing
+  sinceKolmafiaRevision(26118);
   // Here we collapse our two possibilities into one
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
