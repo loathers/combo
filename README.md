@@ -26,6 +26,12 @@ The list of rare tiles used by combo can be accessed [here](mafia/data/raretiles
 
 In order to avoid having all users combing the same tiles in sequence, whenever combo is called, it shuffles the order of the rare tiles using your user ID as a seed. This way, you obtain a rare tile order unique to you, which will persist until the data is updated. Combo then proceeds to go over these tiles in sequence, skipping any inaccessible submerged ones, and stores how far it got into `combo_lastTileCombed`. This way, next time you call combo it can pick up where it left.
 
+### Frequently Asked Questions
+
+> COMBO printed out "Our rare tile is combed, but we found a twinkle!" -- what does that mean?
+
+This text means that the scarce beach comb tile that COMBO was targeting has already been combed, so instead of taking the already-combed tile (which will always generate common items) it has found a "twinkly" spot. Twinkly spots mean you get uncommon items instead of the common ones, so COMBO snagged those instead!
+
 ### Credits
 
 Thank you so much to the following players who have provided data for this script:  
