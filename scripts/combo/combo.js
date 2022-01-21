@@ -1895,7 +1895,7 @@ function _comb(tile) {
   var minute = tile.minute,
       row = tile.row,
       column = tile.column;
-  (0,external_kolmafia_namespaceObject.cliExecute)("beach wander ".concat(minute, ";")); // Mafia's _beachLayot property generates strings that look like
+  (0,external_kolmafia_namespaceObject.cliExecute)("beach wander ".concat(minute, ";")); // Mafia's _beachLayout property generates strings that look like
   // 4:rrrrrrrrrr,5:rrrrrrrrrr,6:rrcrrrrrcr,7:crrrrrrrrr,8:rrrrrrrrrr,9:rrrrrrrrrr,10:rrrrrrcrrr
   // We start by turning this into a multidimensional array, and then parse it as a map
   // We use maps because we want to be able to "look up" a row using its index
