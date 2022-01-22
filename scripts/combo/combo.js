@@ -3652,6 +3652,16 @@ function _comb(tile) {
     return;
   }
 
+  var firstRoughRow = Array.from(layout.entries()).find(rowLayout => rowLayout[1].includes("r"));
+
+  if (firstRoughRow) {
+    (0,external_kolmafia_namespaceObject.print)("Our rare tile is combed, but we found some rough sand. So I guess there's that.", HIGHLIGHT);
+    var roughcolumn = firstRoughRow[1].findIndex(x => x === "r");
+    (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(firstRoughRow[0], " ").concat(roughcolumn));
+    return;
+  }
+
+  (0,external_kolmafia_namespaceObject.print)("We've exhausted all other options, so we're combing an already-combed tile.", HIGHLIGHT);
   (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
 } // Alright now this is pretty cool
 // We need a way to shuffle the array deterministically--we want it to have the same order for every player every time
