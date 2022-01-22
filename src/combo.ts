@@ -85,6 +85,20 @@ function _comb(tile: BeachTile): void {
     return;
   }
 
+  const firstRoughRow = Array.from(layout.entries()).find((rowLayout) =>
+    rowLayout[1].includes("r")
+  );
+  if (firstRoughRow) {
+    print(
+      "Our rare tile is combed, but we found some rough sand. So I guess there's that.",
+      HIGHLIGHT
+    );
+    const roughcolumn = firstRoughRow[1].findIndex((x) => x === "r");
+    cliExecute(`beach comb ${firstRoughRow[0]} ${roughcolumn}`);
+    return;
+  }
+
+  print("We've exhausted all other options, so we're combing an already-combed tile.", HIGHLIGHT);
   cliExecute(`beach comb ${row} ${column}`);
 }
 
