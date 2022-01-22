@@ -9,7 +9,7 @@ import {
   print,
   runChoice,
 } from "kolmafia";
-import { get, property, set, sinceKolmafiaRevision } from "libram";
+import { get, property, Session, set, sinceKolmafiaRevision } from "libram";
 
 // Gotta print in a legible colour.
 const HIGHLIGHT = isDarkMode() ? "yellow" : "blue";
@@ -152,6 +152,12 @@ export function main(args: string | number): void {
   // Sometimes people try to run things with insanely old mafia versions and run into problems
   // Think of this as babyproofing
   sinceKolmafiaRevision(26118);
+
+  // Use a wrapper around session tracking to record our results
+  // We do this by first tracking what the session results are right now
+  // Later, we will subtract these items and meat from our final results
+  const baseline = Session.current();
+
   // Here we collapse our two possibilities into one
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
@@ -167,4 +173,22 @@ export function main(args: string | number): void {
   // We have to escape the beach combat choice at the end of the session
   // So we do
   if (handlingChoice()) runChoice(5);
+
+  // Subtract the original session from our current session
+  // the resulting session will only have what we found during combo
+  const final = Session.current().diff(baseline);
+  print("=== RESULTS ===");
+  print(`-Found ${final.meat} meat`);
+  for (const [item, quantity] of final.items.entries()) {
+    print(`-Found ${quantity} ${item}`);
+  }
+
+  const lifetime = Session.add(final, Session.fromFile("combo_results.json"));
+  lifetime.toFile("combo_results.json");
+
+  print("=== LIFETIME RESULTS ===");
+  print(`-Found ${lifetime.meat} meat`);
+  for (const [item, quantity] of lifetime.items.entries()) {
+    print(`-Found ${quantity} ${item}`);
+  }
 }
