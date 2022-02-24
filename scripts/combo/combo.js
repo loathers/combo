@@ -3729,9 +3729,36 @@ function comb() {
 function main(args) {
   // Sometimes people try to run things with insanely old mafia versions and run into problems
   // Think of this as babyproofing
-  sinceKolmafiaRevision(26118); // Use a wrapper around session tracking to record our results
+  sinceKolmafiaRevision(26118);
+
+  if (args === "lifetime") {
+    var _lifetime = Session.fromFile("combo_results.json");
+
+    (0,external_kolmafia_namespaceObject.print)("===LIFETIME RESULTS ===");
+    (0,external_kolmafia_namespaceObject.print)("-Found ".concat(_lifetime.meat, " meat"));
+
+    var _iterator = combo_createForOfIteratorHelper(_lifetime.items.entries()),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var _step$value = combo_slicedToArray(_step.value, 2),
+            item = _step$value[0],
+            quantity = _step$value[1];
+
+        (0,external_kolmafia_namespaceObject.print)("-Found ".concat(quantity, " ").concat(item.plural));
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    return;
+  } // Use a wrapper around session tracking to record our results
   // We do this by first tracking what the session results are right now
   // Later, we will subtract these items and meat from our final results
+
 
   var baseline = Session.current(); // Here we collapse our two possibilities into one
   // If args is already a number, combs is a number
@@ -3755,21 +3782,21 @@ function main(args) {
   (0,external_kolmafia_namespaceObject.print)("=== RESULTS ===");
   (0,external_kolmafia_namespaceObject.print)("-Found ".concat(final.meat, " meat"));
 
-  var _iterator = combo_createForOfIteratorHelper(final.items.entries()),
-      _step;
+  var _iterator2 = combo_createForOfIteratorHelper(final.items.entries()),
+      _step2;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var _step$value = combo_slicedToArray(_step.value, 2),
-          item = _step$value[0],
-          quantity = _step$value[1];
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var _step2$value = combo_slicedToArray(_step2.value, 2),
+          _item = _step2$value[0],
+          _quantity = _step2$value[1];
 
-      (0,external_kolmafia_namespaceObject.print)("-Found ".concat(quantity, " ").concat(item));
+      (0,external_kolmafia_namespaceObject.print)("-Found ".concat(_quantity, " ").concat(_item));
     }
   } catch (err) {
-    _iterator.e(err);
+    _iterator2.e(err);
   } finally {
-    _iterator.f();
+    _iterator2.f();
   }
 
   var lifetime = Session.add(final, Session.fromFile("combo_results.json"));
