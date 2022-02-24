@@ -167,6 +167,16 @@ export function main(args: string | number): void {
   // Think of this as babyproofing
   sinceKolmafiaRevision(26118);
 
+  if (args === "lifetime") {
+    const lifetime = Session.fromFile("combo_results.json");
+    print("===LIFETIME RESULTS ===");
+    print(`-Found ${lifetime.meat} meat`);
+    for (const [item, quantity] of lifetime.items.entries()) {
+      print(`-Found ${quantity} ${item.plural}`);
+    }
+    return;
+  }
+
   // Use a wrapper around session tracking to record our results
   // We do this by first tracking what the session results are right now
   // Later, we will subtract these items and meat from our final results
