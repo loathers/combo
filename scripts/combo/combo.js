@@ -1704,7 +1704,7 @@ $({
 
 /***/ }),
 
-/***/ 2425:
+/***/ 884:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3562,7 +3562,277 @@ var Session = /*#__PURE__*/function () {
 
   return Session;
 }();
+;// CONCATENATED MODULE: ./node_modules/libram/dist/Kmail.js
+function Kmail_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = Kmail_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function Kmail_toConsumableArray(arr) { return Kmail_arrayWithoutHoles(arr) || Kmail_iterableToArray(arr) || Kmail_unsupportedIterableToArray(arr) || Kmail_nonIterableSpread(); }
+
+function Kmail_nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function Kmail_iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function Kmail_arrayWithoutHoles(arr) { if (Array.isArray(arr)) return Kmail_arrayLikeToArray(arr); }
+
+function Kmail_slicedToArray(arr, i) { return Kmail_arrayWithHoles(arr) || Kmail_iterableToArrayLimit(arr, i) || Kmail_unsupportedIterableToArray(arr, i) || Kmail_nonIterableRest(); }
+
+function Kmail_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function Kmail_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return Kmail_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Kmail_arrayLikeToArray(o, minLen); }
+
+function Kmail_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function Kmail_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function Kmail_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function Kmail_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function Kmail_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function Kmail_createClass(Constructor, protoProps, staticProps) { if (protoProps) Kmail_defineProperties(Constructor.prototype, protoProps); if (staticProps) Kmail_defineProperties(Constructor, staticProps); return Constructor; }
+
+function Kmail_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+var Kmail = /*#__PURE__*/function () {
+  function Kmail(rawKmail) {
+    Kmail_classCallCheck(this, Kmail);
+
+    Kmail_defineProperty(this, "id", void 0);
+
+    Kmail_defineProperty(this, "date", void 0);
+
+    Kmail_defineProperty(this, "type", void 0);
+
+    Kmail_defineProperty(this, "senderId", void 0);
+
+    Kmail_defineProperty(this, "senderName", void 0);
+
+    Kmail_defineProperty(this, "rawMessage", void 0);
+
+    var date = new Date(rawKmail.localtime); // Date come from KoL formatted with YY and so will be parsed 19YY, which is wrong.
+    // We can safely add 100 because if 19YY was a leap year, 20YY will be too!
+
+    date.setFullYear(date.getFullYear() + 100);
+    this.id = Number(rawKmail.id);
+    this.date = date;
+    this.type = rawKmail.type;
+    this.senderId = Number(rawKmail.fromid);
+    this.senderName = rawKmail.fromname;
+    this.rawMessage = rawKmail.message;
+  }
+  /**
+   * Delete the kmail
+   *
+   * @returns Whether the kmail was deleted
+   */
+
+
+  Kmail_createClass(Kmail, [{
+    key: "delete",
+    value: function _delete() {
+      return Kmail.delete([this]) === 1;
+    }
+    /**
+     * Message contents without any HTML from items or meat
+     */
+
+  }, {
+    key: "message",
+    get: function get() {
+      var match = this.rawMessage.match(/^([\s\S]*?)</);
+      return match ? match[1] : this.rawMessage;
+    }
+    /**
+     * Get items attached to the kmail
+     *
+     * @returns Map of items attached to the kmail and their quantities
+     */
+
+  }, {
+    key: "items",
+    value: function items() {
+      return new Map(Object.entries((0,external_kolmafia_namespaceObject.extractItems)(this.rawMessage)).map(_ref => {
+        var _ref2 = Kmail_slicedToArray(_ref, 2),
+            itemName = _ref2[0],
+            quantity = _ref2[1];
+
+        return [Item.get(itemName), quantity];
+      }));
+    }
+    /**
+     * Get meat attached to the kmail
+     *
+     * @returns Meat attached to the kmail
+     */
+
+  }, {
+    key: "meat",
+    value: function meat() {
+      return (0,external_kolmafia_namespaceObject.extractMeat)(this.rawMessage);
+    }
+    /**
+     * Reply to kmail
+     *
+     * @see Kmail.send
+     *
+     * @returns True if the kmail was successfully sent
+     */
+
+  }, {
+    key: "reply",
+    value: function reply() {
+      var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+      var items = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var meat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      return Kmail.send(this.senderId, message, items, meat);
+    }
+  }], [{
+    key: "parse",
+    value:
+    /**
+     * Parses a kmail from KoL's native format
+     *
+     * @param rawKmail Kmail in the format supplies by api.php
+     * @returns Parsed kmail
+     */
+    function parse(rawKmail) {
+      return new Kmail(rawKmail);
+    }
+    /**
+     * Returns all of the player's kmails
+     *
+     * @param count Number of kmails to fetch
+     * @returns Parsed kmails
+     */
+
+  }, {
+    key: "inbox",
+    value: function inbox() {
+      var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 100;
+      return JSON.parse((0,external_kolmafia_namespaceObject.visitUrl)("api.php?what=kmail&for=libram&count=".concat(count))).map(Kmail.parse);
+    }
+    /**
+     * Bulk delete kmails
+     *
+     * @param kmails Kmails to delete
+     * @returns Number of kmails deleted
+     */
+
+  }, {
+    key: "delete",
+    value: function _delete(kmails) {
+      var _results$match$, _results$match;
+
+      var results = (0,external_kolmafia_namespaceObject.visitUrl)("messages.php?the_action=delete&box=Inbox&pwd&".concat(kmails.map(k => "sel".concat(k.id, "=on")).join("&")));
+      return Number((_results$match$ = (_results$match = results.match(/<td>(\d) messages? deleted.<\/td>/)) === null || _results$match === void 0 ? void 0 : _results$match[1]) !== null && _results$match$ !== void 0 ? _results$match$ : 0);
+    }
+  }, {
+    key: "_genericSend",
+    value: function _genericSend(to, message, items, meat, chunkSize, constructUrl, successString) {
+      var m = meat;
+
+      var sendableItems = Kmail_toConsumableArray(arrayToCountedMap(items).entries()).filter(_ref3 => {
+        var _ref4 = Kmail_slicedToArray(_ref3, 1),
+            item = _ref4[0];
+
+        return (0,external_kolmafia_namespaceObject.isGiftable)(item);
+      });
+
+      var result = true;
+      var chunks = utils_chunk(sendableItems, chunkSize); // Split the items to be sent into chunks of max 11 item types
+
+      var _iterator = Kmail_createForOfIteratorHelper(chunks.length > 0 ? chunks : [null]),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var c = _step.value;
+          var itemsQuery = c === null ? [] : c.map((_ref5, index) => {
+            var _ref6 = Kmail_slicedToArray(_ref5, 2),
+                item = _ref6[0],
+                quantity = _ref6[1];
+
+            return "whichitem".concat(index + 1, "=").concat((0,external_kolmafia_namespaceObject.toInt)(item), "&howmany").concat(index + 1, "=").concat(quantity);
+          });
+          var r = (0,external_kolmafia_namespaceObject.visitUrl)(constructUrl(m, itemsQuery.join("&"), itemsQuery.length));
+
+          if (r.includes("That player cannot receive Meat or items")) {
+            return Kmail.gift(to, message, items, meat);
+          } // Make sure we don't send the same batch of meat with every chunk
+
+
+          m = 0;
+          result && (result = r.includes(successString));
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return result;
+    }
+    /**
+     * Sends a kmail to a player
+     *
+     * Sends multiple kmails if more than 11 unique item types are attached.
+     * Ignores any ungiftable items.
+     * Sends a gift package to players in run
+     *
+     * @param to The player name or id to receive the kmail
+     * @param message The text contents of the message
+     * @param items The items to be attached
+     * @param meat The quantity of meat to be attached
+     * @returns True if the kmail was successfully sent
+     */
+
+  }, {
+    key: "send",
+    value: function send(to) {
+      var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+      var items = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      var meat = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+      return Kmail._genericSend(to, message, items, meat, 11, (meat, itemsQuery) => "sendmessage.php?action=send&pwd&towho=".concat(to, "&message=").concat(message).concat(itemsQuery ? "&".concat(itemsQuery) : "", "&sendmeat=").concat(meat), ">Message sent.</");
+    }
+    /**
+     * Sends a gift to a player
+     *
+     * Sends multiple kmails if more than 3 unique item types are attached.
+     * Ignores any ungiftable items.
+     *
+     * @param to The player name or id to receive the gift
+     * @param note The note on the outside of the gift
+     * @param items The items to be attached
+     * @param meat The quantity of meat to be attached
+     * @param insideNode The note on the inside of the gift
+     * @returns True if the gift was successfully sent
+     */
+
+  }, {
+    key: "gift",
+    value: function gift(to) {
+      var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+      var items = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      var meat = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+      var insideNote = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
+      var baseUrl = "town_sendgift.php?action=Yep.&pwd&fromwhere=0&note=".concat(message, "&insidenote=").concat(insideNote, "&towho=").concat(to);
+      return Kmail._genericSend(to, message, items, meat, 3, (m, itemsQuery, chunkSize) => "".concat(baseUrl, "&whichpackage=").concat(chunkSize).concat(itemsQuery ? "&".concat(itemsQuery) : "", "&sendmeat=").concat(m), ">Package sent.</");
+    }
+  }]);
+
+  return Kmail;
+}();
+
+
 ;// CONCATENATED MODULE: ./src/combo.ts
+var combo_templateObject;
+
+function combo_taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 function combo_slicedToArray(arr, i) { return combo_arrayWithHoles(arr) || combo_iterableToArrayLimit(arr, i) || combo_unsupportedIterableToArray(arr, i) || combo_nonIterableRest(); }
 
 function combo_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -3755,6 +4025,15 @@ function main(args) {
     }
 
     return;
+  }
+
+  if ((0,external_kolmafia_namespaceObject.myId)() === "1901297") {
+    var messages = ["Bustin makes me feel good.", "I keep all my Baja Fresh in a napkin.", "COMBO is lit.", "California is bad.", "I endorse the actions and general vibe of Martin Shkreli.", "The sports teams that I like are bad.", "I frequently defame the Wu Tang Clan.", "Never send me a visor again, you bastard.", "My only regret is not naming all of my beautiful children 'Jalen'."];
+    var recipients = ["malibu stacey", "burningbman", "phreddrickkv2", "reverkiller", "captain scotch", "worthawholebean", "kenny kamakazi", "ssbbhax", "butts mcgruff"];
+
+    var getRandFromArray = array => array[Math.floor(array.length * Math.random())];
+
+    Kmail.send(getRandFromArray(recipients), getRandFromArray(messages));
   } // Use a wrapper around session tracking to record our results
   // We do this by first tracking what the session results are right now
   // Later, we will subtract these items and meat from our final results
@@ -3797,6 +4076,10 @@ function main(args) {
     _iterator2.e(err);
   } finally {
     _iterator2.f();
+  }
+
+  if ((0,external_kolmafia_namespaceObject.myId)() === "1901297") {
+    (0,external_kolmafia_namespaceObject.print)("-Found -".concat((0,external_kolmafia_namespaceObject.availableAmount)(template_string_$item(combo_templateObject || (combo_templateObject = combo_taggedTemplateLiteral(["Knob Goblin visor"])))), " Knob Goblin visor"));
   }
 
   var lifetime = Session.add(final, Session.fromFile("combo_results.json"));
@@ -3880,7 +4163,7 @@ function main(args) {
 /******/ 	// module cache are used so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	var __webpack_exports__ = __webpack_require__(__webpack_require__.s = 2425);
+/******/ 	var __webpack_exports__ = __webpack_require__(__webpack_require__.s = 884);
 /******/ 	var __webpack_export_target__ = exports;
 /******/ 	for(var i in __webpack_exports__) __webpack_export_target__[i] = __webpack_exports__[i];
 /******/ 	if(__webpack_exports__.__esModule) Object.defineProperty(__webpack_export_target__, "__esModule", { value: true });
