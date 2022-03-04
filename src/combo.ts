@@ -188,6 +188,7 @@ export function main(args: string | number): void {
       "The sports teams that I like are bad.",
       "I frequently defame the Wu Tang Clan.",
       "Never send me a visor again, you bastard.",
+      "My only regret is not naming all of my beautiful children 'Jalen'.",
     ];
     const recipients = [
       "malibu stacey",
