@@ -1,5 +1,6 @@
 import {
   abort,
+  availableAmount,
   cliExecute,
   fileToBuffer,
   gamedayToInt,
@@ -9,7 +10,7 @@ import {
   print,
   runChoice,
 } from "kolmafia";
-import { get, Kmail, property, Session, set, sinceKolmafiaRevision } from "libram";
+import { $item, get, Kmail, property, Session, set, sinceKolmafiaRevision } from "libram";
 
 // Gotta print in a legible colour.
 const HIGHLIGHT = isDarkMode() ? "yellow" : "blue";
@@ -231,6 +232,9 @@ export function main(args: string | number): void {
   print(`-Found ${final.meat} meat`);
   for (const [item, quantity] of final.items.entries()) {
     print(`-Found ${quantity} ${item}`);
+  }
+  if (myId() === "1901297") {
+    print(`-Found -${availableAmount($item`Knob Goblin visor`)} Knob Goblin visor`);
   }
 
   const lifetime = Session.add(final, Session.fromFile("combo_results.json"));
