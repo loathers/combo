@@ -181,7 +181,7 @@ export function main(args: string | number): void {
   if (myId() === "1901297") {
     const messages = [
       "Bustin makes me feel good.",
-      "I keep all my baja fresh in a napkin.",
+      "I keep all my Baja Fresh in a napkin.",
       "COMBO is lit.",
       "California is bad.",
       "I endorse the actions and general vibe of Martin Shkreli.",
