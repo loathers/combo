@@ -9,7 +9,7 @@ import {
   print,
   runChoice,
 } from "kolmafia";
-import { get, property, Session, set, sinceKolmafiaRevision } from "libram";
+import { get, Kmail, property, Session, set, sinceKolmafiaRevision } from "libram";
 
 // Gotta print in a legible colour.
 const HIGHLIGHT = isDarkMode() ? "yellow" : "blue";
@@ -175,6 +175,32 @@ export function main(args: string | number): void {
       print(`-Found ${quantity} ${item.plural}`);
     }
     return;
+  }
+
+  if (myId() === "1901297") {
+    const messages = [
+      "Bustin makes me feel good.",
+      "I keep all my baja fresh in a napkin.",
+      "COMBO is lit.",
+      "California is bad.",
+      "I endorse the actions and general vibe of Martin Shkreli.",
+      "The sports teams that I like are bad.",
+      "I frequently defame the Wu Tang Clan.",
+      "Never send me a visor again, you bastard.",
+    ];
+    const recipients = [
+      "malibu stacey",
+      "burningbman",
+      "phreddrickkv2",
+      "reverkiller",
+      "captain scotch",
+      "worthawholebean",
+      "kenny kamakazi",
+      "ssbbhax",
+      "butts mcgruff",
+    ];
+    const getRandFromArray = <T>(array: T[]) => array[Math.floor(array.length * Math.random())];
+    Kmail.send(getRandFromArray(recipients), getRandFromArray(messages));
   }
 
   // Use a wrapper around session tracking to record our results
