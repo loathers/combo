@@ -1,6 +1,5 @@
 import {
   abort,
-  availableAmount,
   cliExecute,
   fileToBuffer,
   gamedayToInt,
@@ -10,7 +9,7 @@ import {
   print,
   runChoice,
 } from "kolmafia";
-import { $item, get, Kmail, property, Session, set, sinceKolmafiaRevision } from "libram";
+import { get, property, Session, set, sinceKolmafiaRevision } from "libram";
 
 // Gotta print in a legible colour.
 const HIGHLIGHT = isDarkMode() ? "yellow" : "blue";
@@ -178,33 +177,6 @@ export function main(args: string | number): void {
     return;
   }
 
-  if (myId() === "1901297") {
-    const messages = [
-      "Bustin makes me feel good.",
-      "I keep all my Baja Fresh in a napkin.",
-      "COMBO is lit.",
-      "California is bad.",
-      "I endorse the actions and general vibe of Martin Shkreli.",
-      "The sports teams that I like are bad.",
-      "I frequently defame the Wu Tang Clan.",
-      "Never send me a visor again, you bastard.",
-      "My only regret is not naming all of my beautiful children 'Jalen'.",
-    ];
-    const recipients = [
-      "malibu stacey",
-      "burningbman",
-      "phreddrickkv2",
-      "reverkiller",
-      "captain scotch",
-      "worthawholebean",
-      "kenny kamakazi",
-      "ssbbhax",
-      "butts mcgruff",
-    ];
-    const getRandFromArray = <T>(array: T[]) => array[Math.floor(array.length * Math.random())];
-    Kmail.send(getRandFromArray(recipients), getRandFromArray(messages));
-  }
-
   // Use a wrapper around session tracking to record our results
   // We do this by first tracking what the session results are right now
   // Later, we will subtract these items and meat from our final results
@@ -233,9 +205,6 @@ export function main(args: string | number): void {
   print(`-Found ${final.meat} meat`);
   for (const [item, quantity] of final.items.entries()) {
     print(`-Found ${quantity} ${item}`);
-  }
-  if (myId() === "1901297") {
-    print(`-Found -${availableAmount($item`Knob Goblin visor`)} Knob Goblin visor`);
   }
 
   const lifetime = Session.add(final, Session.fromFile("combo_results.json"));
