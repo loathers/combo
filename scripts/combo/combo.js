@@ -3765,7 +3765,8 @@ function main(args) {
   // If args is a string, we convert it to a number
 
   var combs = typeof args === "string" ? parseInt(args) : args;
-  if (combs < 0 || Math.floor(combs) !== combs) (0,external_kolmafia_namespaceObject.abort)("Invalid argument!");
+  if (Math.floor(combs) !== combs) (0,external_kolmafia_namespaceObject.abort)("Invalid argument!");
+  if (combs <= 0) return;
   var n = 1;
 
   while (n <= combs) {
