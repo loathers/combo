@@ -186,7 +186,8 @@ export function main(args: string | number): void {
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
   const combs = typeof args === "string" ? parseInt(args) : args;
-  if (combs < 0 || Math.floor(combs) !== combs) abort("Invalid argument!");
+  if (Math.floor(combs) !== combs) abort("Invalid argument!");
+  if (combs <= 0) return;
 
   let n = 1;
   while (n <= combs) {
