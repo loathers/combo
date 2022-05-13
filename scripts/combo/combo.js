@@ -3772,6 +3772,7 @@ function main(args) {
   while (n <= combs) {
     // Comb returns a boolean based on whether we actually comb the tile
     if (comb()) n++;
+    if (property_get("spadingScript").toLowerCase().includes("excavator")) (0,external_kolmafia_namespaceObject.cliExecute)("spade autoconfirm");
   } // We have to escape the beach combat choice at the end of the session
   // So we do
 
