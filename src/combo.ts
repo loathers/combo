@@ -188,7 +188,22 @@ export function main(args: string | number): void {
   const combs = typeof args === "string" ? parseInt(args) : args;
   if (Math.floor(combs) !== combs) abort("Invalid argument!");
   if (combs <= 0) return;
-
+  const oldFilter = get("logPreferenceChangeFilter");
+  set(
+    "logPreferenceChangeFilter",
+    [
+      ...new Set(
+        ...oldFilter.split(","),
+        "spadingData",
+        "combo_lastTileCombed",
+        "_beachLayout",
+        "_beachMinutes",
+        "_beachCombing"
+      ),
+    ]
+      .filter((x) => x)
+      .join(",")
+  );
   let n = 1;
   while (n <= combs) {
     // Comb returns a boolean based on whether we actually comb the tile
@@ -198,6 +213,7 @@ export function main(args: string | number): void {
   // We have to escape the beach combat choice at the end of the session
   // So we do
   if (handlingChoice()) runChoice(5);
+  set("logPreferenceChangeFilter", oldFilter);
 
   // Subtract the original session from our current session
   // the resulting session will only have what we found during combo
