@@ -213,6 +213,7 @@ export function main(args: string | number): void {
   // We have to escape the beach combat choice at the end of the session
   // So we do
   if (handlingChoice()) runChoice(5);
+  if (get("spadingScript").toLowerCase().includes("excavator")) cliExecute("spade autoconfirm");
   set("logPreferenceChangeFilter", oldFilter);
 
   // Subtract the original session from our current session
