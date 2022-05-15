@@ -193,7 +193,6 @@ export function main(args: string | number): void {
   while (n <= combs) {
     // Comb returns a boolean based on whether we actually comb the tile
     if (comb()) n++;
-    if (get("spadingScript").toLowerCase().includes("excavator")) cliExecute("spade autoconfirm");
   }
 
   // We have to escape the beach combat choice at the end of the session
