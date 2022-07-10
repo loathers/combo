@@ -5,6 +5,7 @@ import {
   gamedayToInt,
   handlingChoice,
   isDarkMode,
+  myAdventures,
   myId,
   print,
   runChoice,
@@ -185,9 +186,21 @@ export function main(args: string | number): void {
   // Here we collapse our two possibilities into one
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
-  const combs = typeof args === "string" ? parseInt(args) : args;
-  if (Math.floor(combs) !== combs) abort("Invalid argument!");
+  let combs = typeof args === "string" ? parseInt(args) : args;
+  if (isNaN(combs) && args !== undefined) abort("Invalid argument!");
   if (combs <= 0) return;
+
+  // If no argument is passed in, use free combs
+  if (args === undefined) {
+    combs = 11 - get("_freeBeachWalksUsed");
+    print(`No argument provided, assuming you want to use your ${combs} free comb(s).`, "red");
+  }
+
+  // Set combs to max number of times we can actually comb
+  if (combs > myAdventures() + (11 - get("_freeBeachWalksUsed"))) {
+    combs = myAdventures() + (11 - get("_freeBeachWalksUsed"));
+    print(`You're trying to comb too many times. We'll comb ${combs} time(s) instead.`, "red");
+  }
 
   let n = 1;
   while (n <= combs) {
