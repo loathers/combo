@@ -1,5 +1,4 @@
 import {
-  abort,
   cliExecute,
   fileToBuffer,
   gamedayToInt,
@@ -187,8 +186,12 @@ export function main(args: string | number): void {
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
   let combs = typeof args === "string" ? parseInt(args) : args;
-  if (isNaN(combs) && args !== undefined) abort("Invalid argument!");
-  if (combs <= 0) return;
+
+  // If combs is nonpositive or not a number, terminate
+  if ((isNaN(combs) && args !== undefined) || combs <= 0) {
+    print("Invalid argument!", "red");
+    return;
+  }
 
   // If no argument is passed in, use free combs
   if (args === undefined) {
