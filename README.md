@@ -8,9 +8,18 @@ Combo is an automated [beach combing](https://kol.coldfront.net/thekolwiki/index
 
 To install the script, use the following command in the KoLMafia CLI.
 ```text
-svn checkout https://github.com/Loathing-Associates-Scripting-Society/combo/branches/release/
+git checkout https://github.com/Loathing-Associates-Scripting-Society/combo.git release
 ```
 
+### Migrating from SVN to Git
+
+With Mafia support now implemented for git you can now remove the old SVN repo and convert to git.
+
+```
+svn delete Loathing-Associates-Scripting-Society-combo-branches-release
+```
+
+Then install combo as normal.
 
 ## Usage
 
