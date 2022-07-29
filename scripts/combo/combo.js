@@ -3563,6 +3563,12 @@ var Session = /*#__PURE__*/function () {
   return Session;
 }();
 ;// CONCATENATED MODULE: ./src/combo.ts
+function combo_construct(Parent, args, Class) { if (combo_isNativeReflectConstruct()) { combo_construct = Reflect.construct; } else { combo_construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) combo_setPrototypeOf(instance, Class.prototype); return instance; }; } return combo_construct.apply(null, arguments); }
+
+function combo_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function combo_setPrototypeOf(o, p) { combo_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return combo_setPrototypeOf(o, p); }
+
 function combo_slicedToArray(arr, i) { return combo_arrayWithHoles(arr) || combo_iterableToArrayLimit(arr, i) || combo_unsupportedIterableToArray(arr, i) || combo_nonIterableRest(); }
 
 function combo_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -3767,6 +3773,8 @@ function main(args) {
   var combs = typeof args === "string" ? parseInt(args) : args;
   if (Math.floor(combs) !== combs) (0,external_kolmafia_namespaceObject.abort)("Invalid argument!");
   if (combs <= 0) return;
+  var oldFilter = property_get("logPreferenceChangeFilter");
+  _set("logPreferenceChangeFilter", combo_toConsumableArray(combo_construct(Set, combo_toConsumableArray(oldFilter.split(",")).concat(["spadingData", "combo_lastTileCombed", "_beachLayout", "_beachMinutes", "_beachCombing"]))).filter(x => x).join(","));
   var n = 1;
 
   while (n <= combs) {
@@ -3776,7 +3784,9 @@ function main(args) {
   // So we do
 
 
-  if ((0,external_kolmafia_namespaceObject.handlingChoice)()) (0,external_kolmafia_namespaceObject.runChoice)(5); // Subtract the original session from our current session
+  if ((0,external_kolmafia_namespaceObject.handlingChoice)()) (0,external_kolmafia_namespaceObject.runChoice)(5);
+  if (property_get("spadingScript").toLowerCase().includes("excavator")) (0,external_kolmafia_namespaceObject.cliExecute)("spade autoconfirm");
+  _set("logPreferenceChangeFilter", oldFilter); // Subtract the original session from our current session
   // the resulting session will only have what we found during combo
 
   var final = Session.current().diff(baseline);
