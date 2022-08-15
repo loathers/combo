@@ -192,14 +192,14 @@ export function main(args: string | number): void {
   set(
     "logPreferenceChangeFilter",
     [
-      ...new Set(
+      ...new Set([
         ...oldFilter.split(","),
         "spadingData",
         "combo_lastTileCombed",
         "_beachLayout",
         "_beachMinutes",
-        "_beachCombing"
-      ),
+        "_beachCombing",
+      ]),
     ]
       .filter((x) => x)
       .join(",")
