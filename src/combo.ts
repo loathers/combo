@@ -186,7 +186,7 @@ export function main(args?: string | number): void {
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
   const combs = typeof args === "string" ? parseInt(args) : args ?? 11 - get("_freeBeachWalksUsed");
-  if (Math.floor(combs) !== combs || isNaN(combs)) abort("Invalid argument!");
+  if (!Number.isInteger(combs) || isNaN(combs)) abort("Invalid argument!");
   if (combs <= 0) return;
   const oldFilter = get("logPreferenceChangeFilter");
   set(
