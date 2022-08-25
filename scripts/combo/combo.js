@@ -3764,8 +3764,8 @@ function main(args) {
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
 
-  var combs = typeof args === "string" ? parseInt(args) : args;
-  if (Math.floor(combs) !== combs) (0,external_kolmafia_namespaceObject.abort)("Invalid argument!");
+  var combs = typeof args === "string" ? parseInt(args) : args !== null && args !== void 0 ? args : 11 - property_get("_freeBeachWalksUsed");
+  if (!Number.isInteger(combs) || isNaN(combs)) (0,external_kolmafia_namespaceObject.abort)("Invalid argument!");
   if (combs <= 0) return;
   var oldFilter = property_get("logPreferenceChangeFilter");
   _set("logPreferenceChangeFilter", combo_toConsumableArray(new Set([].concat(combo_toConsumableArray(oldFilter.split(",")), ["spadingData", "combo_lastTileCombed", "_beachLayout", "_beachMinutes", "_beachCombing"]))).filter(x => x).join(","));
