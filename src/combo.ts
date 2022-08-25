@@ -162,7 +162,7 @@ function comb(): boolean {
 // When called from the CLI, this will only ever have string inputs
 // We use string | number so that people can call this directly from other scripts, should they so desire
 // Realistically, everyone will do the CLI option. But it costs us nothing!
-export function main(args: string | number): void {
+export function main(args?: string | number): void {
   // Sometimes people try to run things with insanely old mafia versions and run into problems
   // Think of this as babyproofing
   sinceKolmafiaRevision(26118);
@@ -185,8 +185,8 @@ export function main(args: string | number): void {
   // Here we collapse our two possibilities into one
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
-  const combs = typeof args === "string" ? parseInt(args) : args;
-  if (Math.floor(combs) !== combs) abort("Invalid argument!");
+  const combs = typeof args === "string" ? parseInt(args) : args ?? 11 - get("_freeBeachWalksUsed");
+  if (!Number.isInteger(combs) || isNaN(combs)) abort("Invalid argument!");
   if (combs <= 0) return;
   const oldFilter = get("logPreferenceChangeFilter");
   set(
