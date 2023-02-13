@@ -58,7 +58,7 @@ function _comb(tile: BeachTile): void {
     // Mafia inexplicably indexes columns starting at 0, and rows starting at 1
     // This is beneficial to us! Arrays are indexed starting at 1, so .findIndex() gets us just what we want
     const whaleColumn = whaleRow[1].findIndex((x) => x === "W");
-    print("We found a whale. To hey deze's heart, we'll stab at it.", HIGHLIGHT);
+    print("We found a whale. To hey deze's heart, we'll stab at it.", "red");
     cliExecute(`beach comb ${whaleRow[0]} ${whaleColumn}`);
     // By returning partway through, we avoid needing to use "else"
     // With the exception of try...finally shenanigans, using the return keyword will just immediately terminate the function
@@ -69,7 +69,7 @@ function _comb(tile: BeachTile): void {
   if (rareRow) {
     // Here we make sure that the tile we were going to comb wasn't already combed
     if (rareRow[column] !== "c") {
-      print("Our rare tile is uncombed, so let's go ahead and change that.", HIGHLIGHT);
+      print("Our rare tile is uncombed, so let's go ahead and change that.", "red");
       cliExecute(`beach comb ${row} ${column}`);
       return;
     }
