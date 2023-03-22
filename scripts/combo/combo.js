@@ -3625,7 +3625,7 @@ function _comb(tile) {
     // Mafia inexplicably indexes columns starting at 0, and rows starting at 1
     // This is beneficial to us! Arrays are indexed starting at 1, so .findIndex() gets us just what we want
     var whaleColumn = whaleRow[1].findIndex(x => x === "W");
-    (0,external_kolmafia_namespaceObject.print)("We found a whale. To hey deze's heart, we'll stab at it.", HIGHLIGHT);
+    (0,external_kolmafia_namespaceObject.print)("We found a whale. To hey deze's heart, we'll stab at it.", "red");
     (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(whaleRow[0], " ").concat(whaleColumn)); // By returning partway through, we avoid needing to use "else"
     // With the exception of try...finally shenanigans, using the return keyword will just immediately terminate the function
 
@@ -3637,7 +3637,7 @@ function _comb(tile) {
   if (rareRow) {
     // Here we make sure that the tile we were going to comb wasn't already combed
     if (rareRow[column] !== "c") {
-      (0,external_kolmafia_namespaceObject.print)("Our rare tile is uncombed, so let's go ahead and change that.", HIGHLIGHT);
+      (0,external_kolmafia_namespaceObject.print)("Our rare tile is uncombed, so let's go ahead and change that.", "red");
       (0,external_kolmafia_namespaceObject.cliExecute)("beach comb ".concat(row, " ").concat(column));
       return;
     }
