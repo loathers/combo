@@ -33,7 +33,7 @@
     "ansi-regex": "^6.0.1",
     "core-js": "^3.16.4",
     "kolmafia": "^5.27583.0",
-    "libram": "^0.6.2"
+    "libram": "^0.8.9"
   },
   "author": "Phreddrickkv2",
   "license": "ISC",
