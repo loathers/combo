@@ -49,11 +49,8 @@ function getFalseRares(): BeachTile[] {
   return beachTiles;
 }
 
-// A list of tiles we know are false rares
-const knownFalseRares = getFalseRares();
-
 function isFalseRare(tile: BeachTile): boolean {
-  return knownFalseRares.some(
+  return getFalseRares().some(
     (t) => tile.minute === t.minute && tile.row === t.row && tile.column === t.column
   );
 }
@@ -64,6 +61,8 @@ function addFalseRare(tile: BeachTile) {
   if (isFalseRare(tile)) {
     return;
   }
+
+  const knownFalseRares = getFalseRares();
 
   // Push it to the list of known false rares
   knownFalseRares.push(tile);
