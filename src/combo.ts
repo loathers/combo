@@ -46,10 +46,10 @@ function getFalseRares(): BeachTile[] {
   const knownFalseRares = getProperty("combo_false_rares")
     .split(";")
     .filter((s) => s.length > 0);
-  const beachTiles: BeachTile[] = knownFalseRares.map((s) => {
-    const [minute, row, col] = s.split(",").map((s) => toInt(s));
+  const beachTiles = knownFalseRares.map((s): BeachTile => {
+    const [minute, row, column] = s.split(",").map((s) => toInt(s));
 
-    return { minute: minute, row: row, column: col };
+    return { minute, row, column };
   });
 
   return beachTiles;
