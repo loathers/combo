@@ -2641,6 +2641,8 @@ var Session = /*#__PURE__*/function () {
   return Session;
 }();
 ;// CONCATENATED MODULE: ./src/combo.ts
+function combo_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = combo_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
 function combo_slicedToArray(arr, i) { return combo_arrayWithHoles(arr) || combo_iterableToArrayLimit(arr, i) || combo_unsupportedIterableToArray(arr, i) || combo_nonIterableRest(); }
 
 function combo_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2648,8 +2650,6 @@ function combo_nonIterableRest() { throw new TypeError("Invalid attempt to destr
 function combo_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function combo_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function combo_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = combo_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function combo_toConsumableArray(arr) { return combo_arrayWithoutHoles(arr) || combo_iterableToArray(arr) || combo_unsupportedIterableToArray(arr) || combo_nonIterableSpread(); }
 
@@ -2799,6 +2799,41 @@ function comb() {
 
   _set("combo_lastTileCombed", index);
   return shouldComb;
+}
+
+function printSession(session) {
+  var items = combo_toConsumableArray(session.items); // Sorts the items to be printed from most profitable, to least
+
+
+  items.sort((_ref, _ref2) => {
+    var _ref3 = combo_slicedToArray(_ref, 2),
+        item1 = _ref3[0],
+        amount1 = _ref3[1];
+
+    var _ref4 = combo_slicedToArray(_ref2, 2),
+        item2 = _ref4[0],
+        amount2 = _ref4[1];
+
+    return (0,external_kolmafia_namespaceObject.historicalPrice)(item2) * amount2 - (0,external_kolmafia_namespaceObject.historicalPrice)(item1) * amount1;
+  });
+  (0,external_kolmafia_namespaceObject.print)("-Found ".concat(session.meat, " meat"));
+
+  var _iterator = combo_createForOfIteratorHelper(items),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var _step$value = combo_slicedToArray(_step.value, 2),
+          item = _step$value[0],
+          quantity = _step$value[1];
+
+      (0,external_kolmafia_namespaceObject.print)("-Found ".concat(quantity, " ").concat(item));
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
 } // When called from the CLI, this will only ever have string inputs
 // We use string | number so that people can call this directly from other scripts, should they so desire
 // Realistically, everyone will do the CLI option. But it costs us nothing!
@@ -2813,25 +2848,7 @@ function main(args) {
     var _lifetime = Session.fromFile("combo_results.json");
 
     (0,external_kolmafia_namespaceObject.print)("===LIFETIME RESULTS ===");
-    (0,external_kolmafia_namespaceObject.print)("-Found ".concat(_lifetime.meat, " meat"));
-
-    var _iterator = combo_createForOfIteratorHelper(_lifetime.items.entries()),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var _step$value = combo_slicedToArray(_step.value, 2),
-            item = _step$value[0],
-            quantity = _step$value[1];
-
-        (0,external_kolmafia_namespaceObject.print)("-Found ".concat(quantity, " ").concat(item.plural));
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-
+    printSession(_lifetime);
     return;
   } // Use a wrapper around session tracking to record our results
   // We do this by first tracking what the session results are right now
@@ -2863,25 +2880,7 @@ function main(args) {
 
   var final = Session.current().diff(baseline);
   (0,external_kolmafia_namespaceObject.print)("=== RESULTS ===");
-  (0,external_kolmafia_namespaceObject.print)("-Found ".concat(final.meat, " meat"));
-
-  var _iterator2 = combo_createForOfIteratorHelper(final.items.entries()),
-      _step2;
-
-  try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      var _step2$value = combo_slicedToArray(_step2.value, 2),
-          _item = _step2$value[0],
-          _quantity = _step2$value[1];
-
-      (0,external_kolmafia_namespaceObject.print)("-Found ".concat(_quantity, " ").concat(_item));
-    }
-  } catch (err) {
-    _iterator2.e(err);
-  } finally {
-    _iterator2.f();
-  }
-
+  printSession(final);
   var lifetime = Session.add(final, Session.fromFile("combo_results.json"));
   lifetime.toFile("combo_results.json");
 }
