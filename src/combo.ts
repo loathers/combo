@@ -4,7 +4,9 @@ import {
   fileToBuffer,
   gamedayToInt,
   handlingChoice,
+  historicalPrice,
   isDarkMode,
+  Item,
   myId,
   print,
   runChoice,
@@ -159,6 +161,20 @@ function comb(): boolean {
   return shouldComb;
 }
 
+function printSession(session: Session) {
+  const items: [Item, number][] = [...session.items];
+
+  // Sorts the items to be printed from most profitable, to least
+  items.sort(([item1, amount1], [item2, amount2]) => {
+    return historicalPrice(item2) * amount2 - historicalPrice(item1) * amount1;
+  });
+
+  print(`-Found ${session.meat} meat`);
+  for (const [item, quantity] of items) {
+    print(`-Found ${quantity} ${item}`);
+  }
+}
+
 // When called from the CLI, this will only ever have string inputs
 // We use string | number so that people can call this directly from other scripts, should they so desire
 // Realistically, everyone will do the CLI option. But it costs us nothing!
@@ -170,10 +186,7 @@ export function main(args?: string | number): void {
   if (args === "lifetime") {
     const lifetime = Session.fromFile("combo_results.json");
     print("===LIFETIME RESULTS ===");
-    print(`-Found ${lifetime.meat} meat`);
-    for (const [item, quantity] of lifetime.items.entries()) {
-      print(`-Found ${quantity} ${item.plural}`);
-    }
+    printSession(lifetime);
     return;
   }
 
@@ -220,10 +233,7 @@ export function main(args?: string | number): void {
   // the resulting session will only have what we found during combo
   const final = Session.current().diff(baseline);
   print("=== RESULTS ===");
-  print(`-Found ${final.meat} meat`);
-  for (const [item, quantity] of final.items.entries()) {
-    print(`-Found ${quantity} ${item}`);
-  }
+  printSession(final);
 
   const lifetime = Session.add(final, Session.fromFile("combo_results.json"));
   lifetime.toFile("combo_results.json");
