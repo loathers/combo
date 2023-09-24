@@ -1,13 +1,17 @@
 import {
   abort,
   cliExecute,
+  cliExecuteOutput,
   fileToBuffer,
   gamedayToInt,
+  getProperty,
   handlingChoice,
   isDarkMode,
   myId,
   print,
   runChoice,
+  setProperty,
+  toInt,
 } from "kolmafia";
 import { get, property, Session, set, sinceKolmafiaRevision } from "libram";
 
@@ -24,6 +28,58 @@ type BeachTile = { minute: number; row: number; column: number };
 // If we didn't make this assertion, a lot of things would explode.
 // Unfortunately, this can mean some bad things could happen were our data file to get messed up
 const rareTiles: BeachTile[] = JSON.parse(fileToBuffer("raretiles.json"));
+
+// A list of all the common items found in infreqeunt twinkles to detect when we actually combed an infrequent tile instead of a rare
+const infrequentItemNames: string[] = [
+  "sand dollar",
+  "dull fish scale",
+  "rough fish scale",
+  "lucky rabbitfish fin",
+  "spearfish fishing spear",
+  "Waders",
+  "pristine fish scale",
+  "piece of coral",
+].map((s) => s.toLowerCase());
+
+function getFalseRares(): BeachTile[] {
+  // Get the property and split it by the divider of ;
+  const knownFalseRares = getProperty("combo_false_rares")
+    .split(";")
+    .filter((s) => s.length > 0);
+  const beachTiles: BeachTile[] = knownFalseRares.map((s) => {
+    const [minute, row, col] = s.split(",").map((s) => toInt(s));
+
+    return { minute: minute, row: row, column: col };
+  });
+
+  return beachTiles;
+}
+
+// A list of tiles we know are false rares
+const knownFalseRares = getFalseRares();
+
+function isFalseRare(tile: BeachTile): boolean {
+  return knownFalseRares.some(
+    (t) => tile.minute === t.minute && tile.row === t.row && tile.column === t.column
+  );
+}
+
+// Invoked when a tile is actually an infrequent tile instead of a rare as expected
+function addFalseRare(tile: BeachTile) {
+  // If we already knew this was a false rare, skip it
+  if (isFalseRare(tile)) {
+    return;
+  }
+
+  // Push it to the list of known false rares
+  knownFalseRares.push(tile);
+
+  // Save the property
+  setProperty(
+    "combo_false_rares",
+    knownFalseRares.map((tile) => `${tile.minute},${tile.row},${tile.column}`).join(";")
+  );
+}
 
 // We precede the function name with an underscore to show that it's not a front, user-facing function
 // In this script, really only main is, but we may port this code into libram at some point
@@ -67,10 +123,31 @@ function _comb(tile: BeachTile): void {
 
   const rareRow = layout.get(row);
   if (rareRow) {
+    // Here we make sure that the tile we were going to comb wasn't actually rough sand
+    if (rareRow[column] === "r") {
+      print("Our rare tile is uncombed, but it was actually rough sand.", HIGHLIGHT);
+      // Note that it is not a rare tile, then invoke a function to add it to the false rares
+      addFalseRare(tile);
+    }
+
     // Here we make sure that the tile we were going to comb wasn't already combed
     if (rareRow[column] !== "c") {
       print("Our rare tile is uncombed, so let's go ahead and change that.", "red");
-      cliExecute(`beach comb ${row} ${column}`);
+      // Grab the output of our comb and lowercase the resulting text
+      const output = cliExecuteOutput(`beach comb ${row} ${column}`).toLowerCase();
+
+      // We exclude grain of sand as it means we didn't comb a twinkle as expected
+      // We check if the output contained an item only found in infrequent twinkles
+      // If it did contain such an item, it means this tile was not actually a rare
+      const hasCommonItem =
+        !output.includes("grain of sand") &&
+        infrequentItemNames.some((name) => output.includes(name));
+
+      // If it was not actually a rare, invoke a function to add it to a list of known false rares
+      if (hasCommonItem) {
+        addFalseRare(tile);
+      }
+
       return;
     }
   }
@@ -149,7 +226,10 @@ function comb(): boolean {
   // Turns out to work out nicely!
   const dayOfMonth = 1 + (gamedayToInt() % 8);
   const rowsHidden = 4 - Math.abs(4 - dayOfMonth);
-  const shouldComb = tile.row > rowsHidden;
+  const rowVisible = tile.row > rowsHidden;
+
+  // If the row is visible and this has not been observed as a false rare
+  const shouldComb = rowVisible && !isFalseRare(tile);
 
   if (shouldComb) _comb(tile);
 
