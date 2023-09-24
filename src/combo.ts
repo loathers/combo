@@ -13,7 +13,7 @@ import {
   setProperty,
   toInt,
 } from "kolmafia";
-import { get, property, Session, set, sinceKolmafiaRevision } from "libram";
+import { $items, get, property, Session, set, sinceKolmafiaRevision } from "libram";
 
 // Gotta print in a legible colour.
 const HIGHLIGHT = isDarkMode() ? "yellow" : "blue";
@@ -30,16 +30,10 @@ type BeachTile = { minute: number; row: number; column: number };
 const rareTiles: BeachTile[] = JSON.parse(fileToBuffer("raretiles.json"));
 
 // A list of all the common items found in infreqeunt twinkles to detect when we actually combed an infrequent tile instead of a rare
-const infrequentItemNames: string[] = [
-  "sand dollar",
-  "dull fish scale",
-  "rough fish scale",
-  "lucky rabbitfish fin",
-  "spearfish fishing spear",
-  "Waders",
-  "pristine fish scale",
-  "piece of coral",
-].map((s) => s.toLowerCase());
+const infrequentItemNames =
+  $items`sand dollar, dull fish scale, rough fish scale, lucky rabbitfish fin, spearfish fishing spear, waders, pristine fish scale, piece of coral`.map(
+    (item) => item.name.toLowerCase()
+  );
 
 function getFalseRares(): BeachTile[] {
   // Get the property and split it by the divider of ;
