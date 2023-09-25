@@ -119,7 +119,10 @@ function _comb(tile: BeachTile): void {
     // Here we make sure that the tile we were going to comb wasn't actually rough sand
     // This uses `hasTwinkleVision` which was added in r27618, but this is not required.
     if (get("hasTwinkleVision", false) && rareRow[column] === "r") {
-      print("Our rare tile is uncombed, but it was actually rough sand.", HIGHLIGHT);
+      print(
+        "Although our rare tile was uncombed, it is actually rough sand. Lets avoid this tile in the future.",
+        HIGHLIGHT
+      );
       // Note that it is not a rare tile, then invoke a function to add it to the false rares
       addFalseRare(tile);
     }
