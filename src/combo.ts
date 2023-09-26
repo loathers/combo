@@ -46,12 +46,12 @@ function parseFalseRares(): BeachTile[] {
   });
 
   return beachTiles;
-};
+}
 
 let falseRares: BeachTile[];
 function getFalseRares(): BeachTile[] {
   if (!falseRares) falseRares = parseFalseRares();
-  return falseRares
+  return falseRares;
 }
 
 function isFalseRare(tile: BeachTile): boolean {
