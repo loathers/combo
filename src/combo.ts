@@ -35,18 +35,24 @@ const infrequentItemNames =
     (item) => item.name.toLowerCase()
   );
 
-function getFalseRares(): BeachTile[] {
+function parseFalseRares(): BeachTile[] {
   // Get the property and split it by the divider of ;
   const knownFalseRares = getProperty("combo_false_rares")
     .split(";")
     .filter((s) => s.length > 0);
   const beachTiles = knownFalseRares.map((s): BeachTile => {
-    const [minute, row, column] = s.split(",").map((s) => toInt(s));
+    const [minute, row, column] = s.split(",").map(Number);
 
     return { minute, row, column };
   });
 
   return beachTiles;
+};
+
+let falseRares: BeachTile[];
+function getFalseRares(): BeachTle[] {
+  if (!falseRares) falseRares = parseFalseRares();
+  return falseRares
 }
 
 function isFalseRare(tile: BeachTile): boolean {
