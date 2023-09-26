@@ -11,7 +11,6 @@ import {
   print,
   runChoice,
   setProperty,
-  toInt,
 } from "kolmafia";
 import { $items, get, property, Session, set, sinceKolmafiaRevision } from "libram";
 
