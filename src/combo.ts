@@ -49,7 +49,7 @@ function parseFalseRares(): BeachTile[] {
 };
 
 let falseRares: BeachTile[];
-function getFalseRares(): BeachTle[] {
+function getFalseRares(): BeachTile[] {
   if (!falseRares) falseRares = parseFalseRares();
   return falseRares
 }
