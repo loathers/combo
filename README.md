@@ -2,13 +2,14 @@
 
 ## Introduction
 
-Combo is an automated [beach combing](https://kol.coldfront.net/thekolwiki/index.php/Comb_the_Beach) script that harvests known rare tiles. The position of said tiles never changes, and Combo features a list of over 800 known locations. 
+Combo is an automated [beach combing](https://kol.coldfront.net/thekolwiki/index.php/Comb_the_Beach) script that harvests known rare tiles. The position of said tiles never changes, and Combo features a list of over 800 known locations.
 
 ## Setup
 
 To install the script, use the following command in the KoLMafia CLI.
+
 ```text
-git checkout https://github.com/loathers/combo.git release
+git checkout loathers/combo release
 ```
 
 ## Usage
@@ -17,7 +18,7 @@ To run the script, call `combo N` in the KoLMafia CLI, where `N` is the number o
 
 ## NEW PROJECT: Finding New Tiles!
 
-There is an active community effort attemptng to find the remaining ~200 or so that Combo doesn't know about. Veracity, a KoLMafia dev, has been working on a BeachComber script with spading functionality to help serve this purpose. Veracity's script is located [here](https://kolmafia.us/threads/beachcomber-fast-and-efficient-beach-combing.23993/). In order to assist with spading the beach, a user would install Veracity's script as described in the Kolmafia.us thread and then runs either `BeachComber free spade` or `BeachComber NNN spade`, putting a number in for NNN defining how many turns you'd like to throw at the spading effort. Big thanks to Veracity; we are looking forward to having all the rare tiles around at some point! (Note: BeachComber also contains all of Combo's tiles; to replicate Combo behavior, you can run it with `BeachComber free rare` in order to have BeachComber simply search for rares, without actively spading new tiles.)  
+There is an active community effort attemptng to find the remaining ~200 or so that Combo doesn't know about. Veracity, a KoLMafia dev, has been working on a BeachComber script with spading functionality to help serve this purpose. Veracity's script is located [here](https://kolmafia.us/threads/beachcomber-fast-and-efficient-beach-combing.23993/). In order to assist with spading the beach, a user would install Veracity's script as described in the Kolmafia.us thread and then runs either `BeachComber free spade` or `BeachComber NNN spade`, putting a number in for NNN defining how many turns you'd like to throw at the spading effort. Big thanks to Veracity; we are looking forward to having all the rare tiles around at some point! (Note: BeachComber also contains all of Combo's tiles; to replicate Combo behavior, you can run it with `BeachComber free rare` in order to have BeachComber simply search for rares, without actively spading new tiles.)
 
 ## Details
 
@@ -37,12 +38,13 @@ This text means that the scarce beach comb tile that COMBO was targeting has alr
 
 ### Credits
 
-Thank you so much to the following players who have provided data for this script:  
-- Tadpoleloop 
-- SSBBHax 
+Thank you so much to the following players who have provided data for this script:
+
+- Tadpoleloop
+- SSBBHax
 - DanceCommander6
-- Disco Stew  
-- Grushvak  
+- Disco Stew
+- Grushvak
 - Veracity
 - The Dictator
 - Playultm8
