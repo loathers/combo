@@ -33,7 +33,7 @@ const rareTiles: BeachTile[] = JSON.parse(fileToBuffer("raretiles.json"));
 // A list of all the common items found in infreqeunt twinkles to detect when we actually combed an infrequent tile instead of a rare
 const infrequentItemNames =
   $items`sand dollar, dull fish scale, rough fish scale, lucky rabbitfish fin, spearfish fishing spear, waders, pristine fish scale, piece of coral`.map(
-    (item) => item.name.toLowerCase()
+    (item) => item.name.toLowerCase(),
   );
 
 function parseFalseRares(): BeachTile[] {
@@ -58,7 +58,7 @@ function getFalseRares(): BeachTile[] {
 
 function isFalseRare(tile: BeachTile): boolean {
   return getFalseRares().some(
-    (t) => tile.minute === t.minute && tile.row === t.row && tile.column === t.column
+    (t) => tile.minute === t.minute && tile.row === t.row && tile.column === t.column,
   );
 }
 
@@ -77,7 +77,7 @@ function addFalseRare(tile: BeachTile) {
   // Save the property
   setProperty(
     "combo_false_rares",
-    knownFalseRares.map((tile) => `${tile.minute},${tile.row},${tile.column}`).join(";")
+    knownFalseRares.map((tile) => `${tile.minute},${tile.row},${tile.column}`).join(";"),
   );
 }
 
@@ -103,7 +103,7 @@ function _comb(tile: BeachTile): void {
       // While you and I both know, looking at the property, that every element at this point will look like [3, ["r","r","r","r","r","r","r","r","r","r"]]
       // TypeScript doesn't know that! the "as" called a "Type Assertion", which is exactly what it sounds like
       // This way, our compiler and our IDE don't start shouting at us for things that we, the reader, know are fine.
-      .map((rowLayout) => [parseInt(rowLayout[0]), rowLayout[1].split("")] as [number, string[]])
+      .map((rowLayout) => [parseInt(rowLayout[0]), rowLayout[1].split("")] as [number, string[]]),
   );
 
   // the Array.find() method returnns either an element of the array that fits, or undefined
@@ -128,7 +128,7 @@ function _comb(tile: BeachTile): void {
     if (get("hasTwinkleVision", false) && rareRow[column] === "r") {
       print(
         "Although our rare tile was uncombed, it is actually rough sand. Lets avoid this tile in the future.",
-        HIGHLIGHT
+        HIGHLIGHT,
       );
       // Note that it is not a rare tile, then invoke a function to add it to the false rares
       addFalseRare(tile);
@@ -157,7 +157,7 @@ function _comb(tile: BeachTile): void {
   }
 
   const firstTwinkleRow = Array.from(layout.entries()).find((rowLayout) =>
-    rowLayout[1].includes("t")
+    rowLayout[1].includes("t"),
   );
   if (firstTwinkleRow) {
     print("Our rare tile is combed, but we found a twinkle!", HIGHLIGHT);
@@ -167,12 +167,12 @@ function _comb(tile: BeachTile): void {
   }
 
   const firstRoughRow = Array.from(layout.entries()).find((rowLayout) =>
-    rowLayout[1].includes("r")
+    rowLayout[1].includes("r"),
   );
   if (firstRoughRow) {
     print(
       "Our rare tile is combed, but we found some rough sand. So I guess there's that.",
-      HIGHLIGHT
+      HIGHLIGHT,
     );
     const roughcolumn = firstRoughRow[1].findIndex((x) => x === "r");
     cliExecute(`beach comb ${firstRoughRow[0]} ${roughcolumn}`);
@@ -280,7 +280,8 @@ export function main(args?: string | number): void {
   // Here we collapse our two possibilities into one
   // If args is already a number, combs is a number
   // If args is a string, we convert it to a number
-  const combs = typeof args === "string" ? parseInt(args) : args ?? 11 - get("_freeBeachWalksUsed");
+  const combs =
+    typeof args === "string" ? parseInt(args) : (args ?? 11 - get("_freeBeachWalksUsed"));
   if (!Number.isInteger(combs) || isNaN(combs)) abort("Invalid argument!");
   if (combs <= 0) return;
   const oldFilter = get("logPreferenceChangeFilter");
@@ -297,7 +298,7 @@ export function main(args?: string | number): void {
       ]),
     ]
       .filter((x) => x)
-      .join(",")
+      .join(","),
   );
   let n = 1;
   while (n <= combs) {

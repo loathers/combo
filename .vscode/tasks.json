@@ -10,7 +10,14 @@
       },
       "problemMatcher": [],
       "label": "npm: build",
-      "detail": "yarn run build:types && yarn run build:js"
+      "detail": "rollup -c rollup.config.ts"
+    },
+    {
+      "type": "npm",
+      "script": "watch",
+      "problemMatcher": [],
+      "label": "npm: watch",
+      "detail": "rollup -c rollup.config.ts --watch"
     },
     {
       "type": "npm",
@@ -22,6 +29,13 @@
         "kind": "test",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "format",
+      "problemMatcher": [],
+      "label": "npm: format",
+      "detail": "eslint src --fix && prettier --write ."
     }
   ]
 }
