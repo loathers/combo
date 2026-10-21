@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Combo is an automated [beach combing](https://kol.coldfront.net/thekolwiki/index.php/Comb_the_Beach) script that harvests known rare tiles. The position of said tiles never changes, and Combo features a list of over 800 known locations.
+Combo is an automated [beach combing](https://kol.coldfront.net/thekolwiki/index.php/Comb_the_Beach) script that harvests known rare tiles. The position of said tiles never changes, and Combo features a list of over 1000 (1001) known locations.
 
 ## Setup
 
